@@ -1,0 +1,141 @@
+Build a React + Vite frontend for a career interview web app called Careersathi. The frontend should be dark-themed, modern, responsive, animated, and visually appealing. Use dummy/mock data for all dynamic sections so the app looks fully interactive, but do not integrate with any real backend.
+
+Features & Workflow
+
+Authentication Pages (UI only)
+
+Login Page
+
+Email, password fields, login button
+
+Animated hover effects and smooth input focus transitions
+
+Dummy validation: if email and password are filled, show success animation
+
+Register Page
+
+Name, email, password, confirm password
+
+Animated form fields and submit button effects
+
+Dummy success animation when all fields are filled
+
+Dashboard Page
+
+Display summary cards with dummy numbers:
+
+Total interviews (e.g., 12)
+
+Average score (e.g., 78)
+
+Highest/lowest score (e.g., 95 / 60)
+
+Buttons/links for:
+
+Start New Interview
+
+View History
+
+Analytics
+
+Animated cards: hover effects, flip or scale on hover
+
+Smooth transitions between sections
+
+Interview Page
+
+Form to submit multiple questions:
+
+Question text input
+
+Answer textarea
+
+Role dropdown (Software Developer, QA, Data Analyst)
+
+Experience level dropdown (Fresher/Experienced)
+
+Feedback mode dropdown (harsh, constructive, friendly)
+
+Submit button with click animation
+
+On submit:
+
+Display dummy results with animated counters:
+
+Overall score (e.g., 82)
+
+List of question cards with:
+
+Question
+
+Answer
+
+Analysis text
+
+Feedback text
+
+Cards fade in with smooth animation
+
+Interview History Page
+
+Paginated list of dummy past interviews (e.g., 5–10 items)
+
+Each entry shows:
+
+Role, level, date, score
+
+Expandable/collapsible card to show questions, answers, analysis, feedback
+
+Smooth expand/collapse animation
+
+Hover effects on cards
+
+Analytics Page
+
+Display charts with dummy data:
+
+Bar chart: Role-wise average scores (e.g., Software Developer: 80, QA: 75)
+
+Line chart: Score trends over time (e.g., last 10 interviews)
+
+Pie chart: Questions attempted vs feedback received
+
+Animated chart transitions and hover tooltips showing dummy details
+
+Optional: modal or tooltip showing last 3 feedback samples
+
+Global Features
+
+Dark theme with smooth color palette
+
+Smooth page transitions using React Router v6
+
+Animated loading skeletons for pages, cards, and charts
+
+Responsive design for mobile, tablet, and desktop
+
+Reusable components: buttons, cards, modals, tables
+
+Animations with Framer Motion or React Spring
+
+Organized folder structure: pages, components, charts, layouts, utils
+
+Technical Requirements
+
+React 18 + Vite
+
+Functional components + hooks
+
+React Router v6 for routing
+
+TailwindCSS or styled-components for styling
+
+Charts using Chart.js or Recharts
+
+Dummy JSON arrays for history, interview results, and analytics
+
+Smooth animations for all interactive elements
+
+End Goal
+
+Generate a fully interactive, dark-themed, animated frontend for Careersathi with all pages (Login, Register, Dashboard, Interview, History, Analytics), charts, summary cards, and animated workflows using mock/dummy data. It should feel like a real app ready to be integrated with backend APIs later.
