@@ -6,7 +6,7 @@ export const api = {
   auth: {
     login: {
       method: "POST",
-      path: "/api/login",
+      path: "/auth/login",
       input: z.object({ email: z.string().email(), password: z.string() }),
       responses: {
         200: insertUserSchema.omit({ password: true }).extend({ id: z.number() }),
@@ -15,7 +15,7 @@ export const api = {
     },
     register: {
       method: "POST",
-      path: "/api/register",
+      path: "/auth/register",
       input: insertUserSchema,
       responses: {
         201: insertUserSchema.omit({ password: true }).extend({ id: z.number() }),
@@ -26,14 +26,14 @@ export const api = {
   interviews: {
     list: {
       method: "GET",
-      path: "/api/interviews",
+      path: "/interview",
       responses: {
         200: z.array(insertInterviewSchema.extend({ id: z.number(), date: z.string() })),
       },
     },
     create: {
       method: "POST",
-      path: "/api/interviews",
+      path: "/interview",
       input: insertInterviewSchema.omit({ overallScore: true, userId: true }).extend({
         questions: z.array(z.object({
           question: z.string(),
@@ -56,7 +56,7 @@ export const api = {
     },
     get: {
       method: "GET",
-      path: "/api/interviews/:id",
+      path: "/interview/:id",
       responses: {
         200: z.object({
           interview: insertInterviewSchema.extend({ id: z.number(), date: z.string() }),
@@ -69,7 +69,7 @@ export const api = {
   analytics: {
     get: {
       method: "GET",
-      path: "/api/analytics",
+      path: "/analytics",
       responses: {
         200: z.object({
           totalInterviews: z.number(),

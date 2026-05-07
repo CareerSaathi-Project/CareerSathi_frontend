@@ -1,4 +1,4 @@
-import { Link, useLocation } from "wouter";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "@/hooks/use-auth";
 import { 
   LayoutDashboard, 
@@ -14,7 +14,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
-  const [location] = useLocation();
+  const location = useLocation();
   const { logout, user } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,9 +26,10 @@ export default function Navbar() {
   ];
 
   const NavLink = ({ item, mobile = false }: { item: typeof navItems[0], mobile?: boolean }) => {
-    const isActive = location === item.href;
+    const isActive = location.pathname === item.href;
+
     return (
-      <Link href={item.href}>
+      <Link to={item.href}>
         <div 
           onClick={() => mobile && setIsOpen(false)}
           className={`
@@ -49,14 +50,15 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-background/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+          
           {/* Logo */}
-          <Link href="/">
+          <Link to="/">
             <div className="flex items-center gap-2 cursor-pointer group">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-accent flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <span className="font-display font-bold text-xl tracking-tight text-white">
-                Intelli<span className="text-primary">Coach</span>
+                Career<span className="text-primary">Saathi</span>
               </span>
             </div>
           </Link>

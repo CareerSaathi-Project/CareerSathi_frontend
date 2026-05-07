@@ -1,11 +1,17 @@
-import { Switch, Route, useLocation } from "wouter";
-import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuthStore } from "@/hooks/use-auth";
-import { useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+
+import { queryClient } from "./lib/queryClient";
 
 import AuthPage from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
@@ -15,67 +21,113 @@ import Analytics from "@/pages/Analytics";
 import NotFound from "@/pages/not-found";
 import Navbar from "@/components/Navbar";
 
-function PrivateRoute({ component: Component, ...rest }: any) {
-  const { user } = useAuthStore();
-  const [, setLocation] = useLocation();
+// ====================
+// Private Route Wrapper
+// ====================
+function PrivateRoute({ children }: { children: JSX.Element }) {
+  const { user, isHydrated } = useAuthStore();
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!user) {
-      setLocation("/auth");
-    }
-  }, [user, setLocation]);
+  if (!isHydrated) {
+    return <div className="text-center pt-20">Loading...</div>;
+  }
 
-  if (!user) return null;
+  if (!user) {
+    return <Navigate to="/auth" state={{ from: location }} replace />;
+  }
 
   return (
     <>
       <Navbar />
       <main className="pt-24 px-4 pb-12 max-w-7xl mx-auto min-h-screen">
-        <Component {...rest} />
+        {children}
       </main>
     </>
   );
 }
 
-function Router() {
-  const { user } = useAuthStore();
-  const [location] = useLocation();
+// ====================
+// Animated Routes Wrapper (FIX)
+// ====================
+function AnimatedRoutes() {
+  const location = useLocation();
+  const { user, isHydrated } = useAuthStore();
 
   return (
     <AnimatePresence mode="wait">
-      <Switch location={location} key={location}>
-        <Route path="/auth">
-          {user ? <Dashboard /> : <AuthPage />}
-        </Route>
-        
-        <Route path="/">
-          <PrivateRoute component={Dashboard} />
-        </Route>
-        
-        <Route path="/interview">
-          <PrivateRoute component={Interview} />
-        </Route>
-        
-        <Route path="/history">
-          <PrivateRoute component={History} />
-        </Route>
-        
-        <Route path="/analytics">
-          <PrivateRoute component={Analytics} />
-        </Route>
-        
-        <Route component={NotFound} />
-      </Switch>
+      <Routes location={location} key={location.pathname}>
+        {/* Public */}
+        <Route
+          path="/auth"
+          element={
+            isHydrated && user ? (
+              <Navigate to="/" replace />
+            ) : (
+              <AuthPage />
+            )
+          }
+        />
+
+        {/* Private */}
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/interview"
+          element={
+            <PrivateRoute>
+              <Interview />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <PrivateRoute>
+              <History />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/analytics/:id"
+          element={
+            <PrivateRoute>
+              <Analytics />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <PrivateRoute>
+              <Analytics />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Fallback */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </AnimatePresence>
   );
 }
 
+// ====================
+// App Component
+// ====================
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
-          <Router />
+          <Router>
+            <AnimatedRoutes /> {/* ✅ FIXED */}
+          </Router>
         </div>
         <Toaster />
       </TooltipProvider>

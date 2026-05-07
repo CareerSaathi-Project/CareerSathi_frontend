@@ -60,7 +60,7 @@ export default function AuthPage() {
             <Sparkles className="w-6 h-6 text-white" />
           </div>
           <h1 className="text-3xl font-display font-bold tracking-tight">
-            Intelli<span className="text-primary">Coach</span>
+            Career<span className="text-primary">Saathi</span>
           </h1>
           <p className="text-muted-foreground mt-2">Master your tech interviews with AI</p>
         </div>
